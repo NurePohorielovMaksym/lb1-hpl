@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<h1>Статті</h1>
+{% for article in articles %}
+<div class="article">
+    <h2><a href="/article/{{ article.pk }}/">{{ article.title }}</a></h2>
+    <p>Автор: {{ article.author }} | {{ article.published_at|date:"d.m.Y H:i" }}</p>
+    <p>{{ article.text|truncatewords:20 }}</p>
+    {% if user == article.author or user.is_superuser %}
+        <a href="/article/{{ article.pk }}/edit/">Редагувати</a>
+        <a href="/article/{{ article.pk }}/delete/">Видалити</a>
+    {% endif %}
+</div>
+{% empty %}
+<p>Статей поки немає.</p>
+{% endfor %}
+{% endblock %}
